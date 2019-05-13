@@ -1,0 +1,35 @@
+﻿{
+    "total": 3,
+    "eventlist": [
+        {
+            "name": "新中国成立",
+            "starttime": "19491001",
+            "endtime": "",
+            "ispoint": "1",
+            "parentevent": "",
+            "addrname": "北京市",
+            "addrlng": 116.46,
+            "addrlat": 39.92
+        },
+        {
+            "name": "台儿庄战役",
+            "starttime": "193803",
+            "endtime": "193804",
+            "ispoint": "1",
+            "parentevent": "",
+            "addrname": "山东省",
+            "addrlng": 117.73,
+            "addrlat": 34.57
+        },
+        {
+            "name": "长征",
+            "starttime": "193410",
+            "endtime": "193810",
+            "ispoint": "0",
+            "parentevent": "",
+            "addrname": "",
+            "addrlng": "",
+            "addrlat": ""
+        }
+    ]
+}

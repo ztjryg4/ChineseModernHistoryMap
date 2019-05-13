@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>给多个点添加信息窗体</title>
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.14&key=3ba235d64fecbae7380d6f6bac0a793d"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+
+
+
+</head>
+<body>
+<div id="container"></div>
+<div class="container" style="overflow: hidden;height: 100%;">
+    <div class="row">
+        <div class="col-md-3 order-md-2 mb-3">
+
+
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted"><br></span>
+            </h4>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">中国近代史可视化</span>
+                <span class="badge badge-secondary badge-pill">19</span>
+            </h4>
+            <div class="dropdown">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    样式
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+            <br>
+            <div style="overflow-y: auto;height: 8%;">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <!--<a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">-->
+                        <!--<div>-->
+                            <!--<h6 class="my-0">事件1</h6>-->
+                            <!--<small>浙江省宁波市</small>-->
+                        <!--</div>-->
+                        <!--<span>2000年6月7日</span>-->
+                    <!--</a>-->
+                    <!--<a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">-->
+                        <!--<div>-->
+                            <!--<h6 class="my-0">Product name</h6>-->
+                            <!--<small>Brief description</small>-->
+                        <!--</div>-->
+                        <!--<span>$12</span>-->
+                    <!--</a>-->
+                </div>
+
+            </div>
+            <form class="card p-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="年份快速定位" id="qsid">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="QuickSearch();">师傅，走诶！</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    //初始化地图对象，加载地图
+    var map = new AMap.Map('container', {
+        resizeEnable: true, //是否监控地图容器尺寸变化
+        zoom:5,
+        center: [103.14674, 39.291732],
+        mapStyle: "amap://styles/blue"
+    });
+    //读取数据
+    $(function () {
+        $.getJSON('data/pointevent.json', function (json) {
+            // alert(json.data.length);
+            //遍历赋值
+
+            for (var key in json.eventlist) {
+                // alert(json.eventlist[key].name);
+                // $("#Typelist").append('<li><a href="#">Action1</a></li>');
+                var eventtype = json.eventlist[key].ispoint;
+                if (eventtype==1){
+                    //可用单点表示的事件
+                    console.log(json.eventlist[key].name)
+                    var starttime = json.eventlist[key].starttime.toString();
+                    var endtime = json.eventlist[key].endtime.toString();
+                    if (starttime.length==8) {
+                        var timestr = starttime.substr(0,4)+'年'+starttime.substr(4,2)+'月'+starttime.substr(6,2)+'日';
+                    }
+                    else if (starttime.length==6){
+                        var timestr = starttime.substr(0,4)+'年'+starttime.substr(4,2)+'月';
+                    }
+                    else if (starttime.length==4){
+                        var timestr = starttime.substr(0,4)+'年';
+                    }
+                    if (endtime.length==8) {
+                        timestr = timestr + ' 至 ' + endtime.substr(0,4)+'年'+endtime.substr(4,2)+'月'+endtime.substr(6,2)+'日';
+                    }
+                    else if (endtime.length==6){
+                        timestr = timestr + ' 至 ' + endtime.substr(0,4)+'年'+endtime.substr(4,2)+'月';
+                    }
+                    else if (endtime.length==4){
+                        timestr = timestr + ' 至 ' + endtime.substr(0,4)+'年';
+                    }
+                    $("#list-tab").append('<a class="list-group-item list-group-item-action" id="event'+key+'" data-toggle="list" href="javascript:void(0);" role="tab" onclick="EventClick(this)">'+'<div>'+'<h6 class="my-0">'+json.eventlist[key].name+'</h6>'+'<small>'+json.eventlist[key].addrname+'</small>'+'</div>'+'<span>'+timestr+'</span>'+'</a>');
+
+                }else if (eventtype==-1){
+                    //无法用确定地点表示
+                }else if (eventtype==0){
+                    //可用多点表示的事件
+                }else if (eventtype==2){
+                    //可用多个轮廓表示的事件
+                }
+            }
+        })
+    });
+    // var lnglats = [
+    //     [116.368904, 39.923423],
+    //     [116.382122, 39.921176],
+    //     [116.387271, 39.922501],
+    //     [116.398258, 39.914600]
+    // ];
+    // var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
+    // for (var i = 0, marker; i < lnglats.length; i++) {
+    //     var marker = new AMap.Marker({
+    //         position: lnglats[i],
+    //         map: map
+    //     });
+    //     marker.content = '我是第' + (i + 1) + '个Marker';
+    //     marker.on('click', markerClick);
+    //     marker.emit('click', {target: marker});
+    // }
+    // function markerClick(e) {
+    //     infoWindow.setContent(e.target.content);
+    //     infoWindow.open(map, e.target.getPosition());
+    // }
+    // map.setFitView();
+
+    function EventClick(e){
+        var lngs = [];
+        var lats = [];
+        //读取当前事件数据
+        var eventid = e.id.substr(5);
+        $.getJSON('data/pointevent.json', function (json) {
+            // alert(json.eventlist[eventid].addrlng)
+
+            lngs = json.eventlist[eventid].addrlng;
+            lats = json.eventlist[eventid].addrlat;
+
+            map.clearMap();
+
+            if (lngs.length==1){
+                //单点标记
+                var onepoint = [];
+                onepoint.push(lngs[0]);
+                onepoint.push(lats[0]);
+                //点状标记
+                console.log(onepoint);
+                var marker = new AMap.Marker({
+                    map: map,
+                    position: onepoint
+                });
+                //信息窗创建和打开
+                var eventtitle = json.eventlist[eventid].name;
+                var eventdescribe = json.eventlist[eventid].des;
+                AMapUI.loadUI(['overlay/SimpleInfoWindow'], function(SimpleInfoWindow) {
+                    var infoWindow = new SimpleInfoWindow({
+                        infoTitle: '<strong>'+eventtitle+'</strong>',
+                        infoBody: '<small>'+eventdescribe+'</small>',
+                        offset: new AMap.Pixel(0, -31)
+                    });
+
+                    function openInfoWin() {
+                        infoWindow.open(map, marker.getPosition());
+                    }
+
+                    //marker 点击时打开
+                    AMap.event.addListener(marker, 'click', function() {
+                        openInfoWin();
+                    });
+
+                    openInfoWin();
+                });
+
+                map.setCenter(marker.getPosition())
+            }
+
+        })
+
+    }
+
+    function QuickSearch() {
+        // $("#event0").click();
+        var QSInput = document.getElementById("qsid").value;
+        var QSEleName = "event" + QSInput.toString();
+        if (QSInput.length==4){
+            if(!isNaN(QSInput)){
+                //输入为数字且位数正确
+                $.getJSON('data/pointevent.json', function (json) {
+                    //寻找最近的年份
+                    for (var key in json.eventlist) {
+                        var QScuryear = json.eventlist[key].starttime.toString().substr(0,4);
+                    }
+                })
+                document.getElementById(QSEleName).click();
+            }else{
+                alert("输入错误");
+            }
+        }
+    }
+</script>
+</body>
+</html>
