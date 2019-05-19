@@ -4,21 +4,32 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>给多个点添加信息窗体</title>
-    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!--<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <title>中国近代史可视化</title>
+
+    <!--CSS CDN-->
+    <!--<link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>-->
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <!--CSS local-->
+    <link rel="stylesheet" href="css/amap/main1119.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <!--JS CDN-->
+    <!--<script src="js/jquery.min.js?v=2.1.4"></script>-->
+    <!--<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>-->
+    <!--<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
+    <!--<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
+    <!--<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.14&key=3ba235d64fecbae7380d6f6bac0a793d"></script>-->
+    <!--<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>-->
+    <!--<script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>-->
+
+    <!--JS local-->
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.14&key=3ba235d64fecbae7380d6f6bac0a793d"></script>
-    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
-    <script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
-
-
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/amap/maps.js"></script>
+    <script type="text/javascript" src="js/amap/addToolbar.js"></script>
+    <script src="js/amap/main.js?v=1.0.11"></script>
 
 </head>
 <body>
@@ -32,21 +43,33 @@
                 <span class="text-muted"><br></span>
             </h4>
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">中国近代史可视化</span>
-                <span class="badge badge-secondary badge-pill">19</span>
+                <span class="text-light">中国近代史可视化</span>
+                <!--<span class="text-muted">中国近代史可视化</span>-->
+                <a data-toggle="popover" data-placement="bottom" title="信息" data-content="地图信息来自高德地图API。使用BootStrap。本项目已在GitHub上根据MPL-2.0协议开源。https://github.com/ztjryg4/ChineseModernHistoryMap">
+                    <span class="badge badge-secondary badge-pill">i</span>
+                </a>
+
             </h4>
-            <div class="dropdown">
-                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    样式
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+            <form class="card p-2">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="年份快速定位" id="qsid">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-secondary" onclick="QuickSearch();">师傅走诶！</button>
+                    </div>
                 </div>
-            </div>
+            </form>
+            <!--<div class="dropdown">-->
+                <!--<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                    <!--样式-->
+                <!--</button>-->
+                <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+                    <!--<a class="dropdown-item" href="#">Action</a>-->
+                    <!--<a class="dropdown-item" href="#">Another action</a>-->
+                    <!--<a class="dropdown-item" href="#">Something else here</a>-->
+                <!--</div>-->
+            <!--</div>-->
             <br>
-            <div style="overflow-y: auto;height: 8%;">
+            <div style="overflow-y: auto;height: 3.5%;">
                 <div class="list-group" id="list-tab" role="tablist">
                     <!--<a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">-->
                         <!--<div>-->
@@ -65,14 +88,7 @@
                 </div>
 
             </div>
-            <form class="card p-2">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="年份快速定位" id="qsid">
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-secondary" onclick="QuickSearch();">师傅，走诶！</button>
-                    </div>
-                </div>
-            </form>
+
         </div>
 
     </div>
@@ -87,6 +103,7 @@
     });
     //读取数据
     $(function () {
+        $("[data-toggle='popover']").popover();
         $.getJSON('data/pointevent.json', function (json) {
             // alert(json.data.length);
             //遍历赋值
@@ -98,8 +115,9 @@
                 if (eventtype==1){
                     //可用单点表示的事件
                     console.log(json.eventlist[key].name)
-                    var starttime = json.eventlist[key].starttime.toString();
-                    var endtime = json.eventlist[key].endtime.toString();
+                    var starttime = Math.floor(json.eventlist[key].starttime).toString();
+                    console.log(starttime)
+                    var endtime = Math.floor(json.eventlist[key].endtime).toString();
                     if (starttime.length==8) {
                         var timestr = starttime.substr(0,4)+'年'+starttime.substr(4,2)+'月'+starttime.substr(6,2)+'日';
                     }
@@ -208,17 +226,30 @@
     function QuickSearch() {
         // $("#event0").click();
         var QSInput = document.getElementById("qsid").value;
-        var QSEleName = "event" + QSInput.toString();
+        console.log(QSInput);
+
         if (QSInput.length==4){
             if(!isNaN(QSInput)){
                 //输入为数字且位数正确
                 $.getJSON('data/pointevent.json', function (json) {
                     //寻找最近的年份
+                    var QSnearestID = -1;
                     for (var key in json.eventlist) {
                         var QScuryear = json.eventlist[key].starttime.toString().substr(0,4);
+                        if (QScuryear - QSInput >= 0){
+                            QSnearestID = key;
+                            break;
+                        }else if (QScuryear - QSInput < 0){
+                            continue;
+                        }
                     }
+                    var QSEleName = "event" + QSnearestID.toString();
+                    document.getElementById(QSEleName).click();
+                    // window.location.href="#"+QSEleName;
+                    var _id = document.getElementById(QSEleName);
+                    window.scrollTo(0,_id.offsetTop);
                 })
-                document.getElementById(QSEleName).click();
+
             }else{
                 alert("输入错误");
             }
